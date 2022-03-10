@@ -1,1 +1,12 @@
-This is team PreQL's github repository for project 2 of the data engineering class (CSCI5751) at UMN.
+# CSCI 5751 Project 2 - Snowflake Proof of Concept
+
+CSCI 5751 Big Data Engineering & Architecture, Spring 2022
+Chad Dvoracek
+University of Minnesota
+
+Team PreQL
+slack channel: spring22dataeng
+Avinash Akella
+Abhiraj Mohan
+Sai Sharan Sundar
+Josh Spitzer-Resnick
