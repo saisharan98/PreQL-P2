@@ -19,3 +19,8 @@ create or replace file format csv_line type='csv'
   skip_header = 1 field_optionally_enclosed_by = '\042' trim_space = false
   error_on_column_count_mismatch = false escape = 'none' escape_unenclosed_field = '\134'
   date_format = 'auto' timestamp_format = 'auto' null_if = ('') comment = 'CSV format with line-separation';
+  
+
+--verify file formats are created
+
+show file formats in database preql_sales;
