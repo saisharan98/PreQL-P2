@@ -13,7 +13,7 @@ Josh Spitzer-Resnick
 
 ## How to run
 
-~
+The script to drop all 
 
 ## Materialized views and clustering use cases
 
