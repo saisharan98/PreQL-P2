@@ -1,3 +1,11 @@
+-- environment set-up
+use role sysadmin;
+use warehouse compute_wh;
+
+-- switch to the newly created schema
+use database preql_sales;
+use schema curated;
+
 -- create views
 
 -- View: customer_monthly_sales_2019_view
