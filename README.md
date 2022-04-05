@@ -16,12 +16,12 @@ Please run the scripts in the order written below
 
 | Run Order | Name of File | Path in Repo | Description |
 | --- | --- | --- | --- |
-| 1 | `code` | blah | |
-| 2 | `code` | blah | |
-| 3 | `code` | blah | |
-| 4 | `code` | blah | |
-| 5 | `code` | blah | |
-| 6 | drop_script.sql | https://github.com/saisharan98/PreQL-P2 | |
+| 1 | `code` | https://github.com/saisharan98/PreQL-P2 | |
+| 2 | `code` | https://github.com/saisharan98/PreQL-P2 | |
+| 3 | `code` | https://github.com/saisharan98/PreQL-P2 | |
+| 4 | `code` | https://github.com/saisharan98/PreQL-P2 | |
+| 5 | `code` | https://github.com/saisharan98/PreQL-P2 | |
+| 6 | drop_script.sql | https://github.com/saisharan98/PreQL-P2 | Removes all tables, databases and schema in a cascade. |
 ## Materialized views and clustering use cases
 
 [Materialized views](https://docs.snowflake.com/en/user-guide/views-materialized.html) store data from a query, which can then be queried without recomputing the original query. This is a useful optimization if a) the original query is complex or time or resource intensive, and/or b) the original query is very commonly repeated. [Clustering](https://docs.snowflake.com/en/user-guide/tables-clustering-micropartitions.html) stores similar data together in local parititions. This is done automatically, but clustering keys can be defined to manually store specific data in similar locations.
