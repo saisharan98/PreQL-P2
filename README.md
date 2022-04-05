@@ -17,8 +17,8 @@ The script to drop all
 
 | Step | Code | Description |
 | --- | --- | --- |
-| blah | blah | blah |
-| blah | blah | blah |
+| blah | `code` | blah |
+| blah | `code` | blah |
 
 ## Materialized views and clustering use cases
 
