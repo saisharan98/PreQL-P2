@@ -15,6 +15,11 @@ Josh Spitzer-Resnick
 
 The script to drop all 
 
+| Step | Code | Description |
+| --- | --- | --- |
+| blah | blah | blah |
+| blah | blah | blah |
+
 ## Materialized views and clustering use cases
 
 [Materialized views](https://docs.snowflake.com/en/user-guide/views-materialized.html) store data from a query, which can then be queried without recomputing the original query. This is a useful optimization if a) the original query is complex or time or resource intensive, and/or b) the original query is very commonly repeated. [Clustering](https://docs.snowflake.com/en/user-guide/tables-clustering-micropartitions.html) stores similar data together in local parititions. This is done automatically, but clustering keys can be defined to manually store specific data in similar locations.
