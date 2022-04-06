@@ -20,9 +20,12 @@ delete from employees;
 delete from products;
 delete from sales;
 
--- populate tables with new data
+-- create cluster key on customerid of sales table
+alter table sales cluster by (customerid);
 
+-- populate tables with new data
 insert into customers (select distinct * from preql_sales.raw.customers);
-insert into employees (select distinct * from preql_sales.raw.employees);
+insert into employees (select distinct employeeid, firstname, middleinitial, lastname, lower(region) as region
+                       from preql_sales.raw.employees);
 insert into products (select distinct * from preql_sales.raw.products);
 insert into sales (select distinct * from preql_sales.raw.sales);
