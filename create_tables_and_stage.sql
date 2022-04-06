@@ -13,7 +13,6 @@ use database preql_sales;
 use schema raw;
 
 -- create tables to store the data
-
 create or replace table Sales
 (OrderID integer,
  SalesPersonID integer,
@@ -42,7 +41,6 @@ Price float);
 
 
 -- create stages
-
 create stage raw_customers
 url = 's3://seng5709/customers/';
 
@@ -56,7 +54,6 @@ create stage raw_sales
 url = 's3://seng5709/sales/';
 
 -- check the files inside stage
-
 list @raw_customers;
 list @raw_employees;
 list @raw_products;
