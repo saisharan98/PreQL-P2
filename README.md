@@ -11,9 +11,23 @@ Abhiraj Mohan\
 Sai Sharan Sundar\
 Josh Spitzer-Resnick
 
-## How to run
+## Quality analysis of raw data
 
-The script to drop all 
+## `curated` database description
+
+cols, # records
+
+## How to run
+Please run the scripts in the order written below
+
+| Run Order | Name of File | Path in Repo | Description |
+| --- | --- | --- | --- |
+| 1 | `code` | /PreQL-P2 | |
+| 2 | `code` | /PreQL-P2 | |
+| 3 | `code` | /PreQL-P2 | |
+| 4 | `code` | /PreQL-P2 | |
+| 5 | `code` | /PreQL-P2 | |
+| 6 | drop_script.sql | /PreQL-P2 | Removes all tables, databases and schema in a cascade. |
 
 ## Materialized views and clustering use cases
 
