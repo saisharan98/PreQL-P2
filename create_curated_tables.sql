@@ -14,7 +14,6 @@ use database preql_sales;
 use schema curated;
 
 -- delete old data from tables
-
 delete from customers;
 delete from employees;
 delete from products;

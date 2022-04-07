@@ -7,7 +7,6 @@ use database preql_sales;
 use schema raw;
 
 --creating file formats
-
 create or replace file format csv_comma type='csv'
   compression = 'auto' field_delimiter = ',' record_delimiter = '\n'
   skip_header = 1 field_optionally_enclosed_by = '\042' trim_space = false
@@ -22,5 +21,4 @@ create or replace file format csv_line type='csv'
   
 
 --verify file formats are created
-
-show file formats in database preql_sales;
+-- show file formats in database preql_sales;

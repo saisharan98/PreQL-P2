@@ -27,14 +27,14 @@ cols, # records
 ## How to run
 Please run the scripts in the order written below
 
-| Run Order | Name of File                  | Path in Repo | Description |
-| --- |-------------------------------| --- | --- |
-| 1 | `create_tables_and_stage.sql` | /PreQL-P2 | |
-| 2 | `create_file_formats.sql`     | /PreQL-P2 | |
-| 3 | `load_data.sql`               | /PreQL-P2 | |
-| 4 | `create_curated_tables.sql`   | /PreQL-P2 | |
-| 5 | `create_views.sql`            | /PreQL-P2 | |
-| 6 | `drop_script.sql`             | /PreQL-P2 | Removes all tables, databases and schema in a cascade. |`
+| Run Order | Name of File | Path in Repo | Description |
+| --- | --- | --- | --- |
+| 1 | create_tables_and_stage.sql | /PreQL-P2 | Creates database, tables, schema and stages. |
+| 2 | create_file_formats.sql | /PreQL-P2 | Creates formats for data |
+| 3 | load_data.sql | /PreQL-P2 | Loads data into created tables from stages. |
+| 4 | create_curated_tables.sql | /PreQL-P2 | Creates new schema using a clusterkey on 'customerid' of the 'sales' table and loads data into new tables. |
+| 5 | create_views.sql | /PreQL-P2 | Creates two custom views: Aggregate total amount of all products purchased by month for 2019 and Top ten customers sorted by total dollar amount in sales from highest to lowest |
+| 6 | drop_script.sql | /PreQL-P2 | Removes all tables, databases and schema in a cascade. |
 
 ## Materialized views and clustering use cases
 
