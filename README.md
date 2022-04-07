@@ -12,7 +12,14 @@ Sai Sharan Sundar\
 Josh Spitzer-Resnick
 
 ## Quality analysis of raw data
+We ran a rigorous exploratory data analysis process to analyse the quality of our data.
+We executed multiple sanity checks on our raw data tables to be able to 
+filter those out in the curated data tables. In this section, we describe the EDA process.
+All of these queries can be found in the `exploration_analysis.sql` file. 
 
+#### Checking for duplicate IDs
+We run a select query to check if there are any records in any of the four tables
+`Sales`, `Employees`, `Customers`, `Products` that have duplicate IDs
 ## `curated` database description
 
 cols, # records
@@ -20,14 +27,14 @@ cols, # records
 ## How to run
 Please run the scripts in the order written below
 
-| Run Order | Name of File | Path in Repo | Description |
-| --- | --- | --- | --- |
-| 1 | `code` | /PreQL-P2 | |
-| 2 | `code` | /PreQL-P2 | |
-| 3 | `code` | /PreQL-P2 | |
-| 4 | `code` | /PreQL-P2 | |
-| 5 | `code` | /PreQL-P2 | |
-| 6 | drop_script.sql | /PreQL-P2 | Removes all tables, databases and schema in a cascade. |
+| Run Order | Name of File                  | Path in Repo | Description |
+| --- |-------------------------------| --- | --- |
+| 1 | `create_tables_and_stage.sql` | /PreQL-P2 | |
+| 2 | `create_file_formats.sql`     | /PreQL-P2 | |
+| 3 | `load_data.sql`               | /PreQL-P2 | |
+| 4 | `create_curated_tables.sql`   | /PreQL-P2 | |
+| 5 | `create_views.sql`            | /PreQL-P2 | |
+| 6 | `drop_script.sql`             | /PreQL-P2 | Removes all tables, databases and schema in a cascade. |`
 
 ## Materialized views and clustering use cases
 
