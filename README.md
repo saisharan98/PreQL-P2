@@ -61,7 +61,7 @@ We ran a rigorous exploratory data analysis process to analyse the quality of ou
 We run a select query to check if there are any records in any of the four tables `Sales`, `Employees`, `Customers`, `Products` that have duplicate IDs. None were found.
 
 #### Checking for duplicate rows
-This is to check if there are duplicate rows that might have different IDs but are similar in every other attribute. We did find one row in the Customers table, belonging to a 'Stephanie Smith', which was an exact replica of itself.
+This is to check if there are duplicate rows that might have different IDs but are similar in every other attribute. We did find one row in the `customers` table, belonging to a 'Stephanie Smith', which was an exact replica of itself.
 
 #### Checking for datetime formatting
 The `Sales` table contains the date of the transaction and is formatted as timestamp. We do a sanity check on this attribute to ensure that there were not any formatting discrepancies.
@@ -104,6 +104,8 @@ Please run the scripts in the order written below
 | 6         | create_views.sql            | /PreQL-P2/create_views.sql            | Creates three custom views: **customer_monthly_sales_2019_view:** Aggregate total amount of all products purchased by month for 2019, **customer_monthly_sales_2019_view:** Top ten customers sorted by total dollar amount in sales from highest to lowest, and **product_sales_view:** product and sales view. |
 | 7         | drop_script.sql             | /PreQL-P2/drop_script.sql             | Removes all tables, databases, schemas etc in a cascade.                                                                                                                                                                                                                                                         |
 
+We assume proper key-pair authentication is in place. Please refer to the [Key_Pair_Authentication_Snowflake.pdf](https://github.com/saisharan98/PreQL-P2/blob/main/Key_Pair_Authentication_Snowflake.pdf) file to see our set-up, and refer to the [official Snowflake documentation](https://docs.snowflake.com/en/user-guide/snowsql-start.html#label-snowsql-key-pair-authn-rotation) for more details.
+
 For testing, we used the following commands:
 
 1: `set SNOWSQL_PRIVATE_KEY_PASSPHRASE=snowflakeproject`
@@ -111,24 +113,29 @@ For testing, we used the following commands:
 
 2: `snowsql -a xt67644.ca-central-1.aws -u Avinash`
 
-`snowsql -a xt67644.ca-central-1.aws -u Avinash -f create_tables_and_stage.sql`
+We're now connected to the account. We then proceed to execute the sql scripts in the following order. Note that we assume the SnowSQL CLI is opened in the same folder as the scripts. If otherwise, one may need to modify the file paths accordingly.
 
-`snowsql -a xt67644.ca-central-1.aws -u Avinash -f create_file_formats.sql`
+The run commands have the general format:
+`snowsql -a <account_name> -u <username> -f <path_to_file>`
 
-`snowsql -a xt67644.ca-central-1.aws -u Avinash -f load_data.sql`
+1: `snowsql -a xt67644.ca-central-1.aws -u Avinash -f create_tables_and_stage.sql`
 
-`snowsql -a xt67644.ca-central-1.aws -u Avinash -f exploration_analysis.sql`
+2: `snowsql -a xt67644.ca-central-1.aws -u Avinash -f create_file_formats.sql`
 
-`snowsql -a xt67644.ca-central-1.aws -u Avinash -f create_curated_tables.sql`
+3: `snowsql -a xt67644.ca-central-1.aws -u Avinash -f load_data.sql`
 
-`snowsql -a xt67644.ca-central-1.aws -u Avinash -f create_views.sql`
+4: `snowsql -a xt67644.ca-central-1.aws -u Avinash -f exploration_analysis.sql`
 
-`snowsql -a xt67644.ca-central-1.aws -u Avinash -f drop_script.sql`
+5: `snowsql -a xt67644.ca-central-1.aws -u Avinash -f create_curated_tables.sql`
+
+6: `snowsql -a xt67644.ca-central-1.aws -u Avinash -f create_views.sql`
+
+7: `snowsql -a xt67644.ca-central-1.aws -u Avinash -f drop_script.sql`
 
 ## Materialized views and clustering use cases
 
-[Materialized views](https://docs.snowflake.com/en/user-guide/views-materialized.html) store data from a query, which can then be queried without recomputing the original query. This is a useful optimization if a) the original query is complex or time or resource intensive, and/or b) the original query is very commonly repeated. [Clustering](https://docs.snowflake.com/en/user-guide/tables-clustering-micropartitions.html) stores similar data together in local parititions. This is done automatically, but clustering keys can be defined to manually store specific data in similar locations.
+[Materialized views](https://docs.snowflake.com/en/user-guide/views-materialized.html) store data from a query, which can then be queried without recomputing the original query. This is a useful optimization if a) the original query is complex or time or resource intensive, and/or b) the original query is very commonly repeated. [Clustering](https://docs.snowflake.com/en/user-guide/tables-clustering-micropartitions.html) stores similar data together in local partitions. This is done automatically, but clustering keys can be defined to manually store specific data in similar locations.
 
 Two use cases that could apply to this example include:
-- Sorting or filtering a large dataset is a time and resource intensive task. If one was interested in querying only the top products being sold, top products an employee is selling, or top products a customer is buying, a materialized view could be created with the sorted information from most common to least common, which one could then query more often (e.g. for each product, employee, or customer) rather than recreating a sorted view each time a similar query was run. The materialized view could be recalculated depending on the granuality of data required (e.g. weekly or daily), as small continouus variations likely will not dramatically change trends amongst the most popular products.
+- Sorting or filtering a large dataset is a time and resource intensive task. If one was interested in querying only the top products being sold, top products an employee is selling, or top products a customer is buying, a materialized view could be created with the sorted information from most common to least common, which one could then query more often (e.g. for each product, employee, or customer) rather than recreating a sorted view each time a similar query was run. The materialized view could be recalculated depending on the granularity of data required (e.g. weekly or daily), as small continuous variations likely will not dramatically change trends amongst the most popular products.
 - If one needed to sort sales by price or quantity but also to analyse top products or other metrics by region, a clustering key could be created on region so that queries looking for the top products in a region would only have to access a minimal number of dataset partitions, lowering the time required to compute them.
