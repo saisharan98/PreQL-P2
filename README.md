@@ -11,6 +11,48 @@ Abhiraj Mohan\
 Sai Sharan Sundar\
 Josh Spitzer-Resnick
 
+## Raw data description
+We provide a thorough description of the data through a data dictionary in this section.
+**Sales**: This table contains records of each transaction. It can also be considered as the fact table in a star schema.
+
+| Attribute     | Data-type    | Description                                                        |
+|---------------|--------------|--------------------------------------------------------------------|
+| OrderID       | Integer (PK) | Unique identification for sales                                    |
+| SalesPersonID | Integer (FK) | Unique identification for the salesperson responsible for the sale |
+| CustomerID    | Integer (FK) | Unique identification for the customer for the sale                |
+| ProductID     | Integer (FK) | Unique identification for the product sold                         |
+| Quantity      | Integer      | Quantity of the product sold                                       |
+| SalesDate     | Timestamp    | Date for the sale                                                  |
+
+The other three tables act as dimension tables. The fact table `Sales` has foreign key references to each of these tables.
+
+**Employees**: This table contains information about each employee
+
+| Attribute     | Data-type    | Description                                                                  |
+|---------------|--------------|------------------------------------------------------------------------------|
+| EmployeeID    | Integer (PK) | Unique identification for the employee                                       |
+| FirstName     | String       | String representation for the first name of the employee                     |
+| MiddleInitial | String       | String representation for the middle initial of the employee                 |
+| LastName      | String       | String representation for the last name of the employee                      |
+| Region        | String       | An abbreviated string representation for the region the employee operates in |
+
+**Customers**: This table contains information about each customer
+
+| Attribute     | Data-type    | Description                                                  |
+|---------------|--------------|--------------------------------------------------------------|
+| CustomerID    | Integer (PK) | Unique identification for the customer                       |
+| FirstName     | String       | String representation for the first name of the employee     |
+| MiddleInitial | String       | String representation for the middle initial of the employee |
+| LastName      | String       | String representation for the last name of the employee      |
+
+**Products**: This table contains information about each product
+
+| Attribute | Data-type    | Description                                       |
+|-----------|--------------|---------------------------------------------------|
+| ProductID | Integer (PK) | Unique identification for the product             |
+| Name      | String       | String representation for the name of the product |
+| Price     | Float        | Price of the product                              |
+
 ## Quality analysis of raw data
 We ran a rigorous exploratory data analysis process to analyse the quality of our data.
 We executed multiple sanity checks on our raw data tables to be able to 
@@ -38,29 +80,37 @@ We also did a check on the `salesdate` to check if the range of dates made sense
 We also check if any of the customers are also employees and find it to be false.
 **Products**: We found that about 48 products have 0 as their price.
 
-
 ## `curated` database description
 
-We cleaned the data by removing a dulplicate record in the `Customers` table, and converting the `region` field in `Employees` to lower case to account for inconsistencies. We noticed that our queries for two of the views heavily rely on grouping by the `customerid` field of the `Sales` table, so we decided to create a cluster key on that field. The idea is that Clustering similar records beforehand will reduce query runtime, especially for big-data.
+We cleaned the data by removing a duplicate record in the `Customers` table, and converting the `region` field in `Employees` to lower case to account for inconsistencies. 
+We noticed that our queries for two of the views heavily rely on grouping by the `customerid` field of the `Sales` table, so we decided to create a cluster key on that field.
+The idea is that Clustering similar records beforehand will reduce query runtime, especially for big-data.
 
-cols, # records
+| Table     | Number of records |
+|-----------|-------------------|
+| Sales     | 6.7M              |
+| Employees | 19.8K             |
+| Customers | 23                |
+| Products  | 504               |
 
 ## How to run
 Please run the scripts in the order written below
 
-| Run Order | Name of File | Path in Repo | Description |
-| --- | --- | --- | --- |
-| 1 | create_tables_and_stage.sql | /PreQL-P2 | Creates database, tables, 'raw' schema and stages. |
-| 2 | create_file_formats.sql | /PreQL-P2 | Creates file formats for data |
-| 3 | load_data.sql | /PreQL-P2 | Loads data into created tables from stages. |
-| 4 | create_curated_tables.sql | /PreQL-P2 | Clones 'raw' schema as 'curated'. Creates a clusterkey on 'customerid' field of the 'sales' table, and loads data into 'curated' schema tables. |
-| 5 | create_views.sql | /PreQL-P2 | Creates three custom views: **customer_monthly_sales_2019_view:** Aggregate total amount of all products purchased by month for 2019, **customer_monthly_sales_2019_view:** Top ten customers sorted by total dollar amount in sales from highest to lowest, and **product_sales_view:** product and sales view. |
-| 6 | drop_script.sql | /PreQL-P2 | Removes all tables, databases, schemas etc in a cascade. |
+| Run Order | Name of File                | Path in Repo                          | Description                                                                                                                                                                                                                                                                                                      |
+|-----------|-----------------------------|---------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| 1         | create_tables_and_stage.sql | /PreQL-P2/create_tables_and_stage.sql | Creates database, tables, 'raw' schema and stages.                                                                                                                                                                                                                                                               |
+| 2         | create_file_formats.sql     | /PreQL-P2/create_file_formats.sql     | Creates file formats for data.                                                                                                                                                                                                                                                                                   |
+| 3         | load_data.sql               | /PreQL-P2/load_data.sql               | Loads data into created tables from stages.                                                                                                                                                                                                                                                                      |
+| 6         | exploration_analysis.sql    | /PreQL-P2/exploration_analysis.sql    | Conducts exploratory analysis on the raw data tables.                                                                                                                                                                                                                                                            |
+| 4         | create_curated_tables.sql   | /PreQL-P2/create_curated_tables.sql   | Clones 'raw' schema as 'curated'. Creates a clusterkey on 'customerid' field of the 'sales' table, and loads data into 'curated' schema tables after cleaning it.                                                                                                                                                |
+| 5         | create_views.sql            | /PreQL-P2/create_views.sql            | Creates three custom views: **customer_monthly_sales_2019_view:** Aggregate total amount of all products purchased by month for 2019, **customer_monthly_sales_2019_view:** Top ten customers sorted by total dollar amount in sales from highest to lowest, and **product_sales_view:** product and sales view. |
+| 6         | drop_script.sql             | /PreQL-P2/drop_script.sql             | Removes all tables, databases, schemas etc in a cascade.                                                                                                                                                                                                                                                         |
+
 
 ## Materialized views and clustering use cases
 
 [Materialized views](https://docs.snowflake.com/en/user-guide/views-materialized.html) store data from a query, which can then be queried without recomputing the original query. This is a useful optimization if a) the original query is complex or time or resource intensive, and/or b) the original query is very commonly repeated. [Clustering](https://docs.snowflake.com/en/user-guide/tables-clustering-micropartitions.html) stores similar data together in local parititions. This is done automatically, but clustering keys can be defined to manually store specific data in similar locations.
 
 Two use cases that could apply to this example include:
-- Sorting or filtering a large daataset is a time and resource intensive task. If one was interested in querying only the top products being sold, top products an employee is selling, or top products a customer is buying, a materialized view could be created with the sorted information from most common to least common, which one could then query more often (e.g. for each product, employee, or customer) rather than recreating a sorted view each time a similar query was run. The materialized view could be recalculated depending on the granuality of data required (e.g. weekly or daily), as small continouus variations likely will not dramatically change trends amongst the most popular products.
+- Sorting or filtering a large dataset is a time and resource intensive task. If one was interested in querying only the top products being sold, top products an employee is selling, or top products a customer is buying, a materialized view could be created with the sorted information from most common to least common, which one could then query more often (e.g. for each product, employee, or customer) rather than recreating a sorted view each time a similar query was run. The materialized view could be recalculated depending on the granuality of data required (e.g. weekly or daily), as small continouus variations likely will not dramatically change trends amongst the most popular products.
 - If one needed to sort sales by price or quantity but also to analyse top products or other metrics by region, a clustering key could be created on region so that queries looking for the top products in a region would only have to access a minimal number of dataset partitions, lowering the time required to compute them.
