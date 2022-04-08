@@ -101,11 +101,31 @@ Please run the scripts in the order written below
 | 1         | create_tables_and_stage.sql | /PreQL-P2/create_tables_and_stage.sql | Creates database, tables, 'raw' schema and stages.                                                                                                                                                                                                                                                               |
 | 2         | create_file_formats.sql     | /PreQL-P2/create_file_formats.sql     | Creates file formats for data.                                                                                                                                                                                                                                                                                   |
 | 3         | load_data.sql               | /PreQL-P2/load_data.sql               | Loads data into created tables from stages.                                                                                                                                                                                                                                                                      |
-| 6         | exploration_analysis.sql    | /PreQL-P2/exploration_analysis.sql    | Conducts exploratory analysis on the raw data tables.                                                                                                                                                                                                                                                            |
-| 4         | create_curated_tables.sql   | /PreQL-P2/create_curated_tables.sql   | Clones 'raw' schema as 'curated'. Creates a clusterkey on 'customerid' field of the 'sales' table, and loads data into 'curated' schema tables after cleaning it.                                                                                                                                                |
-| 5         | create_views.sql            | /PreQL-P2/create_views.sql            | Creates three custom views: **customer_monthly_sales_2019_view:** Aggregate total amount of all products purchased by month for 2019, **customer_monthly_sales_2019_view:** Top ten customers sorted by total dollar amount in sales from highest to lowest, and **product_sales_view:** product and sales view. |
-| 6         | drop_script.sql             | /PreQL-P2/drop_script.sql             | Removes all tables, databases, schemas etc in a cascade.                                                                                                                                                                                                                                                         |
+| 4         | exploration_analysis.sql    | /PreQL-P2/exploration_analysis.sql    | Conducts exploratory analysis on the raw data tables.                                                                                                                                                                                                                                                            |
+| 5         | create_curated_tables.sql   | /PreQL-P2/create_curated_tables.sql   | Clones 'raw' schema as 'curated'. Creates a clusterkey on 'customerid' field of the 'sales' table, and loads data into 'curated' schema tables after cleaning it.                                                                                                                                                |
+| 6         | create_views.sql            | /PreQL-P2/create_views.sql            | Creates three custom views: **customer_monthly_sales_2019_view:** Aggregate total amount of all products purchased by month for 2019, **customer_monthly_sales_2019_view:** Top ten customers sorted by total dollar amount in sales from highest to lowest, and **product_sales_view:** product and sales view. |
+| 7         | drop_script.sql             | /PreQL-P2/drop_script.sql             | Removes all tables, databases, schemas etc in a cascade.                                                                                                                                                                                                                                                         |
 
+For testing, we used the following commands:
+
+1: `set SNOWSQL_PRIVATE_KEY_PASSPHRASE=snowflakeproject`
+
+
+2: `snowsql -a xt67644.ca-central-1.aws -u Avinash`
+
+`snowsql -a xt67644.ca-central-1.aws -u Avinash -f create_tables_and_stage.sql`
+
+`snowsql -a xt67644.ca-central-1.aws -u Avinash -f create_file_formats.sql`
+
+`snowsql -a xt67644.ca-central-1.aws -u Avinash -f load_data.sql`
+
+`snowsql -a xt67644.ca-central-1.aws -u Avinash -f exploration_analysis.sql`
+
+`snowsql -a xt67644.ca-central-1.aws -u Avinash -f create_curated_tables.sql`
+
+`snowsql -a xt67644.ca-central-1.aws -u Avinash -f create_views.sql`
+
+`snowsql -a xt67644.ca-central-1.aws -u Avinash -f drop_script.sql`
 
 ## Materialized views and clustering use cases
 
