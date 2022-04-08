@@ -13,6 +13,7 @@ Josh Spitzer-Resnick
 
 ## Raw data description
 We provide a thorough description of the data through a data dictionary in this section.
+
 **Sales**: This table contains records of each transaction. It can also be considered as the fact table in a star schema.
 
 | Attribute     | Data-type    | Description                                                        |
