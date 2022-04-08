@@ -19,16 +19,16 @@ All of these queries can be found in the `exploration_analysis.sql` file.
 
 #### Checking for duplicate IDs
 We run a select query to check if there are any records in any of the four tables
-`Sales`, `Employees`, `Customers`, `Products` that have duplicate IDs.
+`Sales`, `Employees`, `Customers`, `Products` that have duplicate IDs. None were found.
 #### Checking for duplicate rows
 This is to check if there are duplicate rows that might have different IDs but
-are similar in every other attribute.
+are similar in every other attribute. We did find one row in the Customers table, belonging to a 'Stephanie Smith', which was an exact replica of itself.
 #### Checking for datetime formatting
 The `Sales` table contains the date of the transaction and is formatted as timestamp.
 We do a sanity check on this attribute to ensure that there were not any formatting discrepancies.
 #### Checking for lower/upper case consistency
 In all of these tables, there are mutliple attributes of type string. For these attributes,
-we check to ensure that there are no inconsistencies in the case of these strings.
+we check to ensure that there are no inconsistencies in the case of these strings. As part of this, we found that the `region` field in the `employees` table has one region in two different cases: East and east, which we've corrected.
 #### Table-specific checks
 Apart from the general tests that we run for each table, we run table-specific tests
 **Sales**: We found that roughly 50% of the records have the same quantity as the productID.
@@ -41,6 +41,8 @@ We also check if any of the customers are also employees and find it to be false
 
 ## `curated` database description
 
+We cleaned the data by removing a dulplicate record in the `Customers` table, and converting the `region` field in `Employees` to lower case to account for inconsistencies. We noticed that our queries for two of the views heavily rely on grouping by the `customerid` field of the `Sales` table, so we decided to create a cluster key on that field. The idea is that Clustering similar records beforehand will reduce query runtime, especially for big-data.
+
 cols, # records
 
 ## How to run
@@ -48,12 +50,12 @@ Please run the scripts in the order written below
 
 | Run Order | Name of File | Path in Repo | Description |
 | --- | --- | --- | --- |
-| 1 | create_tables_and_stage.sql | /PreQL-P2 | Creates database, tables, schema and stages. |
-| 2 | create_file_formats.sql | /PreQL-P2 | Creates formats for data |
+| 1 | create_tables_and_stage.sql | /PreQL-P2 | Creates database, tables, 'raw' schema and stages. |
+| 2 | create_file_formats.sql | /PreQL-P2 | Creates file formats for data |
 | 3 | load_data.sql | /PreQL-P2 | Loads data into created tables from stages. |
-| 4 | create_curated_tables.sql | /PreQL-P2 | Creates new schema using a clusterkey on 'customerid' of the 'sales' table and loads data into new tables. |
-| 5 | create_views.sql | /PreQL-P2 | Creates two custom views: Aggregate total amount of all products purchased by month for 2019 and Top ten customers sorted by total dollar amount in sales from highest to lowest |
-| 6 | drop_script.sql | /PreQL-P2 | Removes all tables, databases and schema in a cascade. |
+| 4 | create_curated_tables.sql | /PreQL-P2 | Clones 'raw' schema as 'curated'. Creates a clusterkey on 'customerid' field of the 'sales' table, and loads data into 'curated' schema tables. |
+| 5 | create_views.sql | /PreQL-P2 | Creates three custom views: **customer_monthly_sales_2019_view:** Aggregate total amount of all products purchased by month for 2019, **customer_monthly_sales_2019_view:** Top ten customers sorted by total dollar amount in sales from highest to lowest, and **product_sales_view:** product and sales view. |
+| 6 | drop_script.sql | /PreQL-P2 | Removes all tables, databases, schemas etc in a cascade. |
 
 ## Materialized views and clustering use cases
 
