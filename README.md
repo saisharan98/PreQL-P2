@@ -19,7 +19,26 @@ All of these queries can be found in the `exploration_analysis.sql` file.
 
 #### Checking for duplicate IDs
 We run a select query to check if there are any records in any of the four tables
-`Sales`, `Employees`, `Customers`, `Products` that have duplicate IDs
+`Sales`, `Employees`, `Customers`, `Products` that have duplicate IDs.
+#### Checking for duplicate rows
+This is to check if there are duplicate rows that might have different IDs but
+are similar in every other attribute.
+#### Checking for datetime formatting
+The `Sales` table contains the date of the transaction and is formatted as timestamp.
+We do a sanity check on this attribute to ensure that there were not any formatting discrepancies.
+#### Checking for lower/upper case consistency
+In all of these tables, there are mutliple attributes of type string. For these attributes,
+we check to ensure that there are no inconsistencies in the case of these strings.
+#### Table-specific checks
+Apart from the general tests that we run for each table, we run table-specific tests
+**Sales**: We found that roughly 50% of the records have the same quantity as the productID.
+We also did a check on the `salesdate` to check if the range of dates made sense and found no issues.
+**Employees**: We found that there are no two employees with the same name.
+**Customers**: We found a few customers that have hyphenated first name, middle name and last name.
+We also check if any of the customers are also employees and find it to be false.
+**Products**: We found that about 48 products have 0 as their price.
+
+
 ## `curated` database description
 
 cols, # records
